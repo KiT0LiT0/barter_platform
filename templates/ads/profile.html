@@ -2,7 +2,7 @@
 {% block content %}
 <h2>Профиль: {{ user.username }}</h2>
 
-<!-- 🔁 Отправленные предложения -->
+
 <h3 class="section-title">Отправленные предложения</h3>
 <form method="post" action="{% url 'clear_sent_proposals' %}">
   {% csrf_token %}
@@ -31,7 +31,7 @@
 
 <hr>
 
-<!-- 📩 Полученные предложения -->
+
 <h3 class="section-title">Полученные предложения</h3>
 <form method="post" action="{% url 'clear_received_proposals' %}">
   {% csrf_token %}
@@ -73,10 +73,10 @@
 
 <hr>
 
-<!-- ➕ Кнопка -->
+
 <a class="btn" href="{% url 'ad_create' %}">+ Создать объявление</a>
 
-<!-- 📦 Мои объявления -->
+
 <h3 class="section-title">Мои объявления</h3>
 
 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
@@ -111,7 +111,7 @@
   {% endfor %}
 </div>
 
-<!-- Пагинация -->
+
 <div style="margin-top: 30px; display: flex; justify-content: center; gap: 10px;">
   {% if page_obj.has_previous %}
     <a class="btn" href="?page=1">« Первая</a>

@@ -153,7 +153,7 @@ def profile_view(request):
     user = request.user
     ads = Ad.objects.filter(user=user)
 
-    paginator = Paginator(ads, 16)  # 4 ряда по 4 карточки
+    paginator = Paginator(ads, 16)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -178,7 +178,6 @@ def propose_exchange(request, receiver_ad_id):
 
     my_ads = Ad.objects.filter(user=request.user)
 
-    # 🔒 ИСКЛЮЧАЕМ все свои объявления, уже использованные В ЛЮБОМ предложении
     already_used_ids = ExchangeProposal.objects.filter(
         ad_sender__user=request.user
     ).values_list('ad_sender_id', flat=True)
