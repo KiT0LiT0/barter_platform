@@ -86,7 +86,7 @@ ads/
 
 ## Используемые технологии
 
-- Python 3.11
+- Python 3.11.5
 - Django 5.2
 - Django REST Framework
 - drf-spectacular
