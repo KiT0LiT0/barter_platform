@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Платформа обмена</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      background-color: #2d2d2d;
+      color: white;
+      padding: 12px 24px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav a,
+    .logout-form button {
+      color: white;
+      text-decoration: none;
+      background: none;
+      border: none;
+      font: inherit;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav a:hover,
+    .logout-form button:hover {
+      opacity: 0.8;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .form-box {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #357ac9;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #4a90e2;
+      outline: none;
+    }
+
+    .logout-form {
+      display: inline;
+    }
+
+    .messages li {
+      list-style: none;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .messages .success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .messages .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      padding: 16px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="nav" style="display: flex; justify-content: space-between; align-items: center;">
+      <div class="nav-left" style="display: flex; gap: 20px;">
+        {% if user.is_authenticated %}
+          <a href="{% url 'ad_list' %}">Объявления</a>
+          <a href="{% url 'profile' %}">Профиль</a>
+        {% else %}
+          <a href="{% url 'login' %}">Вход</a>
+          <a href="{% url 'register' %}">Регистрация</a>
+        {% endif %}
+      </div>
+
+      {% if user.is_authenticated %}
+        <form class="logout-form" method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit">Выйти</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="container" style="max-width: 1280px; margin: 0 auto; padding: 40px;">
+
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if show_login_form %}
+      {% if not user.is_authenticated %}
+        <div class="form-box">
+          <h2>Вход</h2>
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn" type="submit">Войти</button>
+          </form>
+          <p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь</a></p>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+<footer style="
+  margin-top: 60px;
+  background: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  border-top: 1px solid #ddd;
+">
+  © 2025 Платформа обмена. Все права защищены. |
+  <a href="#" style="color: #007bff; text-decoration: none;">О проекте</a> |
+  <a href="#" style="color: #007bff; text-decoration: none;">Контакты</a> |
+  <a href="https://github.com/" target="_blank" style="color: #007bff; text-decoration: none;">GitHub</a>
+</footer>
+
+</body>
+</html>

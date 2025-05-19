@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ ad.title }}</h2>
+
+{% if ad.image_url %}
+  <div style="width: 100%; max-width: 500px; margin: 0 auto 20px auto;">
+    <img src="{{ ad.image_url }}" alt="Изображение"
+         style="
+           width: 100%;
+           height: 300px;
+           object-fit: contain;
+           object-position: center;
+           border-radius: 10px;
+           display: block;
+           margin: 0 auto;
+         ">
+  </div>
+{% endif %}
+
+
+<div class="card">
+  <p><strong>Описание:</strong> {{ ad.description }}</p>
+  <p><strong>Категория:</strong> {{ ad.category }}</p>
+  <p><strong>Состояние:</strong> {{ ad.condition }}</p>
+
+  {% if user.is_authenticated and ad.user != user %}
+    {% if already_proposed %}
+      <span class="btn" style="background-color: gray; cursor: default;">Вы уже предложили обмен</span>
+    {% else %}
+      <a class="btn" href="{% url 'propose_exchange' ad.pk %}">Предложить обмен</a>
+    {% endif %}
+  {% endif %}
+</div>
+
+<a class="btn" href="{% url 'ad_list' %}">Назад</a>
+{% endblock %}
